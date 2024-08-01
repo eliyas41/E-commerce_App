@@ -5,7 +5,17 @@ import Product from "../model/Product.js";
 // @route   POST /api/v1/products
 // @access  Private/Admin
 export const createProductCtrl = asyncHandler(async (req, res) => {
-  const { name, brand, description, category, sizes, colors, user, price, totalQty } = req.body;
+  const {
+    name,
+    brand,
+    description,
+    category,
+    sizes,
+    colors,
+    user,
+    price,
+    totalQty,
+  } = req.body;
   //Product exists
   const productExists = await Product.findOne({ name });
   if (productExists) {
@@ -135,6 +145,45 @@ export const getProductCtrl = asyncHandler(async (req, res) => {
   if (!product) {
     throw new Error("Product not found");
   }
+  res.json({
+    status: "success",
+    message: "Product fetched successfully",
+    product,
+  });
+});
+
+// @desc    update  product
+// @route   PUT /api/products/:id/update
+// @access  Private/Admin
+export const updateProductCtrl = asyncHandler(async (req, res) => {
+  const {
+    name,
+    brand,
+    description,
+    category,
+    sizes,
+    colors,
+    user,
+    price,
+    totalQty,
+  } = req.body;
+  // Update
+  const product = await Product.findByIdAndUpdate(req.params.id, {
+    name,
+    brand,
+    description,
+    category,
+    sizes,
+    colors,
+    user,
+    price,
+    totalQty,
+  },
+    {
+      new: true,
+    }
+  );
+
   res.json({
     status: "success",
     message: "Product fetched successfully",
