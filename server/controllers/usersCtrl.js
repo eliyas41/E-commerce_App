@@ -8,7 +8,6 @@ import { verifyToken } from "../utils/verifyToken.js";
 // @desc    Register user
 // @route   POST /api/v1/users/register
 // @access  Private/Admin
-
 export const registerUserCtrl = asyncHandler(async (req, res) => {
   const { fullname, email, password } = req.body;
 
@@ -38,7 +37,6 @@ export const registerUserCtrl = asyncHandler(async (req, res) => {
 // @desc    Login user
 // @route   POST /api/v1/users/login
 // @access  Public
-
 export const loginUserCtrl = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   //Find the user in db by email only
@@ -64,7 +62,7 @@ export const getUserProfileCtrl = asyncHandler(async (req, res) => {
   const token = getTokenFromHeader(req);
   // Verify token
   const verified = verifyToken(token);
-  console.log(verified);
+  // console.log(req);
   res.json({
     msg: "Welcome Profile Page",
   });
