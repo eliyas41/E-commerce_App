@@ -11,7 +11,7 @@ export const registerUserCtrl = async (req, res) => {
   const userExist = await User.findOne({ email });
   if (userExist) {
     // throw
-    res.json({
+    return res.json({
       msg: "Email already exist",
     });
   }
@@ -29,9 +29,28 @@ export const registerUserCtrl = async (req, res) => {
     status: "success",
     message: "User Registered Successfully",
     data: user,
-  })
+  });
+};
 
+// @desc    Login user
+// @route   POST /api/v1/users/login
+// @access  Public
 
-
-
+export const loginUserCtrl = async (req, res) => {
+  const { email, password } = req.body;
+  //Find the user in db by email only
+  const userFound = await User.findOne({
+    email,
+  });
+  if (userFound && await bcrypt.compare(password, userFound?.password)) {
+    return res.json({
+      status: "success",
+      message: "User logged in successfully",
+      userFound,
+    })
+  } else {
+    return res.json({
+      msg: "Invalid login",
+    })
+  }
 };
