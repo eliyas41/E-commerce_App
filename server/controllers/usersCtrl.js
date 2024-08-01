@@ -54,3 +54,12 @@ export const loginUserCtrl = asyncHandler(async (req, res) => {
     throw new Error("Invalid login credentials")
   }
 });
+
+// @desc    Get user profile
+// @route   GET /api/v1/users/profile
+// @access  Private
+export const getUserProfileCtrl = asyncHandler(async (req, res) => {
+  res.json({
+    msg: "Welcome Profile Page",
+  });
+});
