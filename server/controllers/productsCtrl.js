@@ -4,7 +4,7 @@ import Product from "../model/Product.js";
 // @desc    Create new product
 // @route   POST /api/v1/products
 // @access  Private/Admin
-export const createProduct = asyncHandler(async (req, res) => {
+export const createProductCtrl = asyncHandler(async (req, res) => {
   const { name, brand, description, category, sizes, colors, user, price, totalQty } = req.body;
   //Product exists
   const productExists = await Product.findOne({ name });
@@ -29,4 +29,15 @@ export const createProduct = asyncHandler(async (req, res) => {
     message: "Product created successfully",
     product,
   });
+});
+
+// @desc    Get all products
+// @route   GET /api/v1/products
+// @access  Public
+export const getProductsCtrl = asyncHandler(async (req, res) => {
+  const products = await Product.find();
+  res.json({
+    status: "success",
+    products,
+  })
 });
