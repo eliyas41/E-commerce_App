@@ -59,10 +59,9 @@ export const loginUserCtrl = asyncHandler(async (req, res) => {
 // @route   GET /api/v1/users/profile
 // @access  Private
 export const getUserProfileCtrl = asyncHandler(async (req, res) => {
-  const token = getTokenFromHeader(req);
+  // const token = getTokenFromHeader(req);
   // Verify token
-  const verified = verifyToken(token);
-  // console.log(req);
+  // const verified = verifyToken(token);
   res.json({
     msg: "Welcome Profile Page",
   });
