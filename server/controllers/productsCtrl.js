@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Product from "../model/Product.js";
 import Category from "../model/Categories.js"
+import Brand from "../model/Brand.js";
 
 // @desc    Create new product
 // @route   POST /api/v1/products
@@ -13,7 +14,6 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
     category,
     sizes,
     colors,
-    user,
     price,
     totalQty,
   } = req.body;
@@ -21,6 +21,16 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
   const productExists = await Product.findOne({ name });
   if (productExists) {
     throw new Error("Product already exists");
+  }
+  //find the brand
+  const brandFound = await Brand.findOne({
+    name: brand.toLowerCase(),
+  });
+
+  if (!brandFound) {
+    throw new Error(
+      "Brand not found, please create brand first or check brand name"
+    );
   }
   //find the category
   const categoryFound = await Category.findOne({
@@ -42,6 +52,11 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
     price,
     totalQty,
   });
+
+  //push the product into brand
+  brandFound.products.push(product._id);
+  //resave
+  await brandFound.save();
   //push the product into category
   categoryFound.products.push(product._id);
   //resave
