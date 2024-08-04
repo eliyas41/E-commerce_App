@@ -58,7 +58,7 @@ export const updateCategoryCtrl = asyncHandler(async (req, res) => {
   const category = await Category.findByIdAndUpdate(
     req.params.id,
     {
-      name,
+      name: name.toLowerCase(),
     },
     {
       new: true,
