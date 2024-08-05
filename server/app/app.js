@@ -8,6 +8,7 @@ import productsRouter from '../routes/productsRoute.js';
 import categoriesRouter from '../routes/categoriesRoute.js';
 import brandsRouter from "../routes/brandsRoute.js";
 import colorRouter from '../routes/colorsRoute.js';
+import reviewRouter from "../routes/reviewsRoute.js";
 
 // db connect
 dbConnect();
@@ -16,11 +17,12 @@ const app = express();
 app.use(express.json());
 
 // routes
-app.use("/api/v1/users", userRouter);
-app.use("/api/v1/products", productsRouter);
-app.use("/api/v1/categories", categoriesRouter);
+app.use("/api/v1/users/", userRouter);
+app.use("/api/v1/products/", productsRouter);
+app.use("/api/v1/categories/", categoriesRouter);
 app.use("/api/v1/brands/", brandsRouter);
 app.use("/api/v1/colors/", colorRouter);
+app.use("/api/v1/reviews/", reviewRouter);
 
 // err middleware
 app.use(notFound);
