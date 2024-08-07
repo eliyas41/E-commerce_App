@@ -61,3 +61,4 @@ export const getUserProfileCtrl = asyncHandler(async (req, res) => {
     msg: "Welcome Profile Page",
   });
 });
+

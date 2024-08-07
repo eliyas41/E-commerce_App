@@ -66,7 +66,12 @@ const productSchema = new Schema(
   }
 );
 
-//Virtuals
+//Virtual
+//qty left
+productSchema.virtual("qtyLeft").get(function () {
+  const product = this;
+  return product.totalQty - product.totalSold;
+});
 //Total rating
 productSchema.virtual("totalReviews").get(function () {
   const product = this;
