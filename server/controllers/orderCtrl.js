@@ -78,12 +78,32 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
   res.send({ url: session.url })
 });
 
+//@desc get all orders
+//@route GET /api/v1/orders
+//@access private
 export const getAllOrdersCtrl = asyncHandler(async (req, res) => {
   // Find all orders
   const orders = await Order.find();
+
+  // send response to the client
   res.json({
     success: true,
     Message: "All orders",
     orders
   })
 })
+
+//@desc get single order
+//@route GET /api/v1/orders/:id
+//@access private/admin
+export const getSingleOrderCtrl = asyncHandler(async (req, res) => {
+  // get id from params
+  const id = req.params.id;
+  const order = await Order.findById(id);
+  // send response to the client
+  res.json({
+    success: true,
+    message: "Single order",
+    order,
+  })
+});
