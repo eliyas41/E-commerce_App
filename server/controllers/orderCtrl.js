@@ -51,18 +51,22 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
   await user.save();
 
   // Make Payment(Stripe)
-  const session = await stripe.checkout.sessions.create({
-    line_items: [{
+  // Convert order items to have same structure that the stripe need
+  const convertedOrders = orderItems.map((item) => {
+    return {
       price_data: {
-        currency: 'usd',
+        currency: "usd",
         product_data: {
-          name: 'Hats',
-          description: 'best'
+          name: item?.name,
+          description: item?.description,
         },
-        unit_amount: 10 * 100,
+        unit_amount: item.price * 100,
       },
-      quantity: 2,
-    }],
+      quantity: item?.qty,
+    };
+  });
+  const session = await stripe.checkout.sessions.create({
+    line_items: convertedOrders,
     mode: 'payment',
     success_url: 'http://localhost:3000/success',
     cancel_url: 'http://localhost:3000/cancel',
