@@ -1,8 +1,10 @@
 import asyncHandler from "express-async-handler";
-import Stripe from "stripe"
+import dotenv from "dotenv";
+import Stripe from "stripe";
 import Order from "../model/Order.js";
 import User from "../model/User.js";
 import Product from "../model/Product.js";
+dotenv.config();
 
 // stripe instance
 const stripe = new Stripe(process.env.STRIPE_KEY)
@@ -68,10 +70,10 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
   res.send({ url: session.url })
   // Implement Payment Webhook
   // Update the user order
-  res.json({
-    success: true,
-    message: "Order created successfully",
-    order,
-    user,
-  })
+  // res.json({
+  //   success: true,
+  //   message: "Order created successfully",
+  //   order,
+  //   user,
+  // })
 });
