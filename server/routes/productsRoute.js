@@ -1,4 +1,5 @@
 import express from 'express';
+import upload from '../config/fileUpload.js';
 import {
   createProductCtrl,
   getProductsCtrl,
@@ -10,7 +11,7 @@ import { isLoggedIn } from '../middlewares/isLoggedIn.js';
 
 const productsRouter = express.Router();
 
-productsRouter.post("/", isLoggedIn, createProductCtrl);
+productsRouter.post("/", isLoggedIn, upload.array("files"), createProductCtrl);
 productsRouter.get("/", getProductsCtrl);
 productsRouter.get("/:id", getProductCtrl);
 productsRouter.put("/:id/update", isLoggedIn, updateProductCtrl);
