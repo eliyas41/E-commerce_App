@@ -46,3 +46,59 @@ export const getAllCouponsCtrl = asyncHandler(async (req, res) => {
     coupons,
   });
 });
+
+// @desc    Get single coupon
+// @route   GET /api/v1/coupons/:id
+// @access  Private/Admin
+export const getCouponCtrl = asyncHandler(async (req, res) => {
+  const coupon = await Coupon.findById(req.params.id);
+  //check if is not found
+  if (coupon === null) {
+    throw new Error("Coupon not found");
+  }
+  //check if expired
+  if (coupon.isExpired) {
+    throw new Error("Coupon Expired");
+  }
+  res.json({
+    status: "success",
+    message: "Coupon fetched",
+    coupon,
+  });
+});
+
+// @desc    update coupon
+// @route   GET /api/v1/coupons/:id
+// @access  Private/Admin
+export const updateCouponCtrl = asyncHandler(async (req, res) => {
+  const { code, startDate, endDate, discount } = req.body;
+  const coupon = await Coupon.findByIdAndUpdate(
+    req.params.id,
+    {
+      code: code?.toUpperCase(),
+      discount,
+      startDate,
+      endDate,
+    },
+    {
+      new: true,
+    }
+  );
+  res.json({
+    status: "success",
+    message: "Coupon updated successfully",
+    coupon,
+  });
+});
+
+// @desc    delete coupon
+// @route   GET /api/v1/coupons/:id
+// @access  Private/Admin
+export const deleteCouponCtrl = asyncHandler(async (req, res) => {
+  const coupon = await Coupon.findByIdAndDelete(req.params.id);
+  res.json({
+    status: "success",
+    message: "Coupon deleted successfully",
+    coupon,
+  });
+});
