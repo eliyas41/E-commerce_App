@@ -38,13 +38,13 @@ CouponSchema.virtual("isExpired").get(function () {
   return this.endDate < Date.now();
 });
 
-// CouponSchema.virtual("daysLeft").get(function () {
-//   const daysLeft =
-//     Math.ceil((this.endDate - Date.now()) / (1000 * 60 * 60 * 24)) +
-//     " " +
-//     "Days left";
-//   return daysLeft;
-// });
+CouponSchema.virtual("daysLeft").get(function () {
+  const daysLeft =
+    Math.ceil((this.endDate - Date.now()) / (1000 * 60 * 60 * 24)) +
+    " " +
+    "Days left";
+  return daysLeft;
+});
 
 //validation
 CouponSchema.pre("validate", function (next) {
