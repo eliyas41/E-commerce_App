@@ -4,10 +4,11 @@ import Stripe from "stripe";
 import Order from "../model/Order.js";
 import User from "../model/User.js";
 import Product from "../model/Product.js";
+import { json } from "express";
 dotenv.config();
 
 // stripe instance
-const stripe = new Stripe(process.env.STRIPE_KEY)
+const stripe = new Stripe(process.env.STRIPE_KEY);
 
 //@desc create orders
 //@route POST /api/v1/orders
@@ -67,17 +68,12 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
   });
   const session = await stripe.checkout.sessions.create({
     line_items: convertedOrders,
+    metadata: {
+      orderId: JSON.stringify(order?._id),
+    },
     mode: 'payment',
     success_url: 'http://localhost:3000/success',
     cancel_url: 'http://localhost:3000/cancel',
   })
   res.send({ url: session.url })
-  // Implement Payment Webhook
-  // Update the user order
-  // res.json({
-  //   success: true,
-  //   message: "Order created successfully",
-  //   order,
-  //   user,
-  // })
 });
