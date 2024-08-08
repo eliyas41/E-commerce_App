@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import dotenv from 'dotenv';
 dotenv.config();
 import dbConnect from '../config/dbConnect.js';
+import Order from '../model/Order.js';
 import { globalErrhandler, notFound } from '../middlewares/globalErrHandler.js';
 import userRouter from '../routes/usersRoute.js';
 import productsRouter from '../routes/productsRoute.js';
@@ -11,7 +12,7 @@ import brandsRouter from "../routes/brandsRoute.js";
 import colorRouter from '../routes/colorsRoute.js';
 import reviewRouter from "../routes/reviewsRoute.js";
 import orderRouter from '../routes/ordersRoute.js';
-import Order from '../model/Order.js';
+import couponRouter from '../routes/couponsRoute.js';
 
 // db connect
 dbConnect();
@@ -89,6 +90,7 @@ app.use("/api/v1/brands/", brandsRouter);
 app.use("/api/v1/colors/", colorRouter);
 app.use("/api/v1/reviews/", reviewRouter);
 app.use("/api/v1/orders/", orderRouter);
+app.use("/api/v1/coupons/", couponRouter);
 
 // err middleware
 app.use(notFound);
