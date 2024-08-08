@@ -7,6 +7,7 @@ import Brand from "../model/Brand.js";
 // @route   POST /api/v1/products
 // @access  Private/Admin
 export const createProductCtrl = asyncHandler(async (req, res) => {
+  const convertedImgs = req.files.map((file) => file.path);
   const {
     name,
     brand,
@@ -52,6 +53,7 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
     user: req.userAuthId,
     price,
     totalQty,
+    images: convertedImgs,
   });
 
   //push the product into brand
