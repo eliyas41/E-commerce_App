@@ -155,12 +155,21 @@ export const updateOrderCtrl = asyncHandler(async (req, res) => {
 //@access private/admin
 export const getOrderStatsCtrl = asyncHandler(async (req, res) => {
   //get order stats
-  const sales = await Order.aggregate([
+  const orders = await Order.aggregate([
     {
       $group: {
         _id: null,
+        minimumSale: {
+          $min: "$totalPrice",
+        },
         totalSales: {
-          $sum: "$totalPrice"
+          $sum: "$totalPrice",
+        },
+        maxSale: {
+          $max: "$totalPrice",
+        },
+        avgSale: {
+          $avg: "$totalPrice",
         },
       },
     },
@@ -169,6 +178,6 @@ export const getOrderStatsCtrl = asyncHandler(async (req, res) => {
   res.status(200).json({
     success: true,
     message: "Sum of orders",
-    sales,
+    orders,
   });
 })
