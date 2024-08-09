@@ -1,4 +1,5 @@
 import express from 'express';
+import path from "path";
 import Stripe from "stripe";
 import dotenv from 'dotenv';
 dotenv.config();
@@ -64,7 +65,6 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (request, 
   } else {
     return;
   }
-
   // // Handle the event
   // switch (event.type) {
   //   case 'payment_intent.succeeded':
@@ -79,8 +79,19 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (request, 
   // Return a 200 response to acknowledge receipt of the event
   response.send();
 });
+
 // pass incoming data
 app.use(express.json());
+//url encoded
+app.use(express.urlencoded({ extended: true }));
+
+//server static files
+app.use(express.static("public"));
+//routes
+//Home route
+app.get("/", (req, res) => {
+  res.sendFile(path.join("public", "index.html"));
+});
 
 // routes
 app.use("/api/v1/users/", userRouter);
