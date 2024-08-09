@@ -3,7 +3,8 @@ import {
   createOrderCtrl,
   getAllOrdersCtrl,
   getSingleOrderCtrl,
-  updateOrderCtrl
+  updateOrderCtrl,
+  getOrderStatsCtrl
 } from "../controllers/orderCtrl.js"
 
 import { isLoggedIn } from "../middlewares/isLoggedIn.js";
@@ -11,6 +12,7 @@ const orderRouter = express.Router();
 
 orderRouter.post("/", isLoggedIn, createOrderCtrl);
 orderRouter.get("/", isLoggedIn, getAllOrdersCtrl);
+orderRouter.get("/sales/sum", isLoggedIn, getOrderStatsCtrl);
 orderRouter.put("/update/:id", isLoggedIn, updateOrderCtrl);
 orderRouter.get("/:id", isLoggedIn, getSingleOrderCtrl);
 
